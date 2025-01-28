@@ -43,17 +43,18 @@ export default function WritePage() {
             />
 
             <Group justify="space-between" pt="md">
-              <Button 
-                ml="auto"
-                disabled={!content.trim()}
-                onClick={() => {
-                  // TODO: 내용 저장
-                  console.log('저장된 내용:', content);
-                  window.location.href = `/relay/1`;
-                }}
-              >
-                완료
-              </Button>
+              <Link href={content.trim() ? '/relay/1' : '#'} style={{ marginLeft: 'auto' }}>
+                <Button
+                  color="blue"
+                  disabled={!content.trim()}
+                  onClick={() => {
+                    // TODO: 내용 저장
+                    console.log('저장된 내용:', content);
+                  }}
+                >
+                  완료
+                </Button>
+              </Link>
             </Group>
           </Stack>
         </Paper>
