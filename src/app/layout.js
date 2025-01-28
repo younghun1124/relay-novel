@@ -1,14 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { MantineProvider, createTheme } from '@mantine/core';
+import '@mantine/core/styles.css';
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const theme = createTheme({
+  primaryColor: 'blue',
+  // 여기에 테마 커스터마이징 추가
 });
 
 export const metadata = {
@@ -18,11 +14,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="ko">
+      <head>
+        <title>릴레이 소설</title>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </head>
+      <body>
+        <MantineProvider theme={theme} defaultColorScheme="light">
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );
