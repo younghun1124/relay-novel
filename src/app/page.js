@@ -10,7 +10,7 @@ export default function Home() {
           <Link href="/create/setting" style={{ width: '100%' }}>
             <Button fullWidth>소설 생성하기</Button>
           </Link>
-          <Link href="/browse" style={{ width: '100%' }}>
+          <Link href="/view" style={{ width: '100%' }}>
             <Button fullWidth variant="outline" color="green">
               소설 보러가기
             </Button>
