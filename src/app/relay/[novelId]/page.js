@@ -2,16 +2,20 @@
 import { Container, Stack, Paper, Title, Text, Textarea, Button, Group } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { use } from 'react';
 
 export default function RelayPage({ params }) {
   const [message, setMessage] = useState('');
   const [novel, setNovel] = useState(null);
   const router = useRouter();
+  
+  // React.use()로 params 처리
+  const { novelId } = use(params);
 
   useEffect(() => {
     // 소설 정보 가져오기
     const fetchNovel = async () => {
-      const response = await fetch(`/api/novels/${params.novelId}`);
+      const response = await fetch(`/api/novels/${novelId}`);
       if (response.ok) {
         const data = await response.json();
         setNovel(data);
@@ -24,7 +28,7 @@ export default function RelayPage({ params }) {
     }
 
     fetchNovel();
-  }, [params.novelId]);
+  }, [novelId]); // params.novelId 대신 novelId 사용
 
   // 가장 최근 작성된 내용 가져오기
   const lastContent = novel?.chapters?.[novel.chapters.length - 1]?.content || '';
@@ -34,8 +38,8 @@ export default function RelayPage({ params }) {
       objectType: 'text',
       text: `릴레이 소설 이어쓰기에 참여해주세요!\n\n마지막 내용: ${lastContent.slice(0, 100)}${lastContent.length > 100 ? '...' : ''}`,
       link: {
-        mobileWebUrl: `${window.location.origin}/write/${params.novelId}`,
-        webUrl: `${window.location.origin}/write/${params.novelId}`,
+        mobileWebUrl: `${window.location.origin}/write/${novelId}`,
+        webUrl: `${window.location.origin}/write/${novelId}`,
       },
     });
   };
