@@ -2,6 +2,7 @@
 import { Container, Stack, Title, Select, Button, Paper } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 export default function CreateSetting() {
   const form = useForm({
@@ -16,9 +17,15 @@ export default function CreateSetting() {
   const genres = ['판타지', '로맨스', 'SF', '추리', '호러'];
   const settings = ['학교', '회사', '왕궁', '우주', '시골'];
   const eras = ['현대', '중세', '미래', '고대', '15세기'];
-  const characters = ['학생', '기사', '마법사', '다람쥐', '용'];
+  const characters = ['학생', '기사', '마법사', '다람쥐', '용', '로봇'];
 
   const isFormComplete = Object.values(form.values).every(value => value !== '');
+
+  // ✅ 쿼리 문자열을 동적으로 생성
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams(form.values);
+    return params.toString();
+  }, [form.values]);
 
   return (
     <Container size="sm" py="xl">
@@ -55,11 +62,16 @@ export default function CreateSetting() {
           />
 
           <Stack gap="md">
-            <Link href={isFormComplete ? '/create/setduration' : '#'} style={{ width: '100%' }}>
+            {/* ✅ 쿼리 파라미터 포함하여 이동 */}
+            <Link 
+              href={isFormComplete ? `/create/setduration/?${queryString}` : '#'} 
+              style={{ width: '100%' }}
+            >
               <Button fullWidth disabled={!isFormComplete}>
                 다음
               </Button>
             </Link>
+
             <Link href="/" style={{ width: '100%' }}>
               <Button fullWidth variant="outline">
                 돌아가기
@@ -70,4 +82,4 @@ export default function CreateSetting() {
       </Paper>
     </Container>
   );
-} 
+}
