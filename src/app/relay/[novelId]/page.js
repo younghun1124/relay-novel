@@ -33,7 +33,11 @@ export default function RelayPage({ params }) {
   const handleShare = () => {
     window.Kakao.Share.sendDefault({
       objectType: 'text',
-      text: `릴레이 소설 이어쓰기에 참여해주세요!\n\n마지막 내용: ${lastContent.slice(0, 100)}${lastContent.length > 100 ? '...' : ''}`,
+      text: 
+        `릴레이 소설 이어쓰기에 참여해주세요!\n\n` +
+        `마지막 내용: ${lastContent.slice(0, 100)}${lastContent.length > 100 ? '...' : ''}\n\n` +
+        `${message ? `다음 작가에게: ${message}\n\n` : ''}` +
+        `아래 링크를 클릭하여 이어서 작성해주세요!`,
       link: {
         mobileWebUrl: `${window.location.origin}/write/${novelId}`,
         webUrl: `${window.location.origin}/write/${novelId}`,
