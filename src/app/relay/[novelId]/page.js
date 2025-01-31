@@ -2,15 +2,12 @@
 import { Container, Stack, Paper, Title, Text, Textarea, Button, Group } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { use } from 'react';
 
 export default function RelayPage({ params }) {
   const [message, setMessage] = useState('');
   const [novel, setNovel] = useState(null);
   const router = useRouter();
-  
-  // React.use()로 params 처리
-  const { novelId } = use(params);
+  const novelId = params.novelId;
 
   useEffect(() => {
     // 소설 정보 가져오기
@@ -28,7 +25,7 @@ export default function RelayPage({ params }) {
     }
 
     fetchNovel();
-  }, [novelId]); // params.novelId 대신 novelId 사용
+  }, [novelId]);
 
   // 가장 최근 작성된 내용 가져오기
   const lastContent = novel?.chapters?.[novel.chapters.length - 1]?.content || '';

@@ -1,6 +1,5 @@
-import { Container, Stack, Paper, Title, Text, Textarea, Button, Group } from '@mantine/core';
+import { Container, Stack, Paper, Title, Text, Badge, Group } from '@mantine/core';
 import WriteForm from './WriteForm';
-import { use } from 'react';
 
 // 서버 컴포넌트로 변경
 async function getNovel(novelId) {
@@ -13,10 +12,8 @@ async function getNovel(novelId) {
   return response.json();
 }
 
-export default function WritePage({ params }) {
-  // React.use()로 params 처리
-  const { novelId } = use(params);
-  const novel = use(getNovel(novelId));
+export default async function WritePage({ params }) {
+  const novel = await getNovel(params.novelId);
   
   // chapters 배열에서 content만 추출
   const contents = novel.chapters?.map(chapter => chapter.content) || [];
@@ -25,6 +22,17 @@ export default function WritePage({ params }) {
   return (
     <Container size="md" py="xl">
       <Stack gap="lg">
+        <Paper shadow="sm" p="xl" radius="md" withBorder>
+          <Stack gap="md">
+            <Title order={2}>{novel.title}</Title>
+            <Group gap="sm">
+              <Badge color="blue">{novel.genre}</Badge>
+              <Text size="sm" c="dimmed">배경: {novel.background}</Text>
+              <Text size="sm" c="dimmed">주인공: {novel.character}</Text>
+            </Group>
+          </Stack>
+        </Paper>
+
         <Paper shadow="sm" p="xl" radius="md" withBorder>
           <Stack gap="md">
             <Title order={3}>이전 내용</Title>
@@ -43,7 +51,7 @@ export default function WritePage({ params }) {
               </Text>
             </Group>
             
-            <WriteForm novelId={novelId} />
+            <WriteForm novelId={params.novelId} />
           </Stack>
         </Paper>
       </Stack>

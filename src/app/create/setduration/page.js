@@ -3,8 +3,10 @@ import { Container, Stack, Title, Paper, Button, Group, Text } from '@mantine/co
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function SetDuration() {
+// SearchParams를 사용하는 컴포넌트를 분리
+function SetDurationContent() {
   const [selected, setSelected] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -119,6 +121,15 @@ export default function SetDuration() {
         </Stack>
       </Paper>
     </Container>
+  );
+}
+
+// 메인 컴포넌트
+export default function SetDuration() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SetDurationContent />
+    </Suspense>
   );
 }
 

@@ -2,16 +2,10 @@ import { NextResponse } from "next/server";
 import { connectDB } from "../../../lib/db";
 import { Novel } from "../../../lib/models"
 
-// NextRequest 타입 추가
-import { NextRequest } from "next/server";
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { novelId: string } }
-) {
+export async function GET(request, context) {
   await connectDB();
   try {
-    const { novelId } = params;
+    const novelId = context.params.novelId;
     const novel = await Novel.findById(novelId);
     if (!novel) {
       return NextResponse.json({ error: "소설을 찾을 수 없습니다." }, { status: 404 });
@@ -23,13 +17,10 @@ export async function GET(
   }
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { novelId: string } }
-) {
+export async function POST(request, context) {
   await connectDB();
   try {
-    const { novelId } = params;
+    const novelId = context.params.novelId;
     const { content, author } = await request.json();
     if (!content || !author) {
       return NextResponse.json({ error: "내용과 작성자는 필수 입력값입니다." }, { status: 400 });
@@ -48,4 +39,4 @@ export async function POST(
     console.log(error)
     return NextResponse.json({ error: "이어쓰기 오류" }, { status: 500 });
   }
-}
+} 
