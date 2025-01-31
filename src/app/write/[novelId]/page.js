@@ -3,7 +3,15 @@ import WriteForm from './WriteForm';
 
 // 서버 컴포넌트로 변경
 async function getNovel(novelId) {
-  const response = await fetch(`http://localhost:3000/api/novels/${novelId}`);
+  // 환경변수로 API URL 설정
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const response = await fetch(`${apiUrl}/api/novels/${novelId}`, {
+    // SSR을 위한 fetch 옵션 추가
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   
   if (!response.ok) {
     throw new Error('소설을 불러오는데 실패했습니다');
